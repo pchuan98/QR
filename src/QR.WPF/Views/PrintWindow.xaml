@@ -1,0 +1,324 @@
+﻿<Window
+    x:Class="QR.WPF.PrintWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:attach="clr-namespace:QR.WPF.Attachs"
+    xmlns:converter="clr-namespace:QR.WPF.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:local="clr-namespace:QR.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="PrintWindow"
+    Width="450"
+    Height="680"
+    attach:WindowElement.MaxButtonVisibility="Collapsed"
+    attach:WindowElement.MinButtonVisibility="Collapsed"
+    attach:WindowElement.ResotreVisibility="Collapsed"
+    ResizeMode="NoResize"
+    Style="{StaticResource EdgeWindow}"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <Style
+            x:Key="TgBStyle"
+            BasedOn="{StaticResource BaseStyle}"
+            TargetType="ToggleButton">
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="hc:BorderElement.CornerRadius" Value="10" />
+
+            <Setter Property="Background" Value="{DynamicResource RegionBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+
+            <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border
+                            Padding="10"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="5">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Foreground="{TemplateBinding Foreground}"
+                                Text="{TemplateBinding Content}" />
+                        </Border>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource SecondaryRegionBrush}" />
+                    <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
+                </Trigger>
+
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Foreground" Value="{DynamicResource PrimaryBrush}" />
+
+                    <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}" />
+                    <Setter Property="BorderThickness" Value="1" />
+
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+    </Window.Resources>
+
+    <Grid WindowChrome.IsHitTestVisibleInChrome="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="26" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="Header">
+            <Grid
+                Width="Auto"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center">
+
+                <TextBlock
+                    Margin="10,10,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Text="Print Manager" />
+            </Grid>
+        </Grid>
+
+
+        <Grid
+            Grid.Row="1"
+            Margin="10"
+            attach:ElementAttach.IsDragElement="True"
+            Background="{DynamicResource RegionBrush}">
+            <Border
+                BorderBrush="{DynamicResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="10"
+                SnapsToDevicePixels="True" />
+
+            <StackPanel>
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Content="页边距" />
+                    <Slider
+                        Name="s_page"
+                        Grid.Column="1"
+                        Margin="10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        IsSnapToTickEnabled="True"
+                        Maximum="100"
+                        Minimum="0"
+                        Value="{Binding PageMargin}" />
+                    <Label
+                        Grid.Column="2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Content="{Binding ElementName=s_page, Path=Value}" />
+                </Grid>
+
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Content="水平间距" />
+                    <Slider
+                        Name="s_horizontal"
+                        Grid.Column="1"
+                        Margin="10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        IsSnapToTickEnabled="True"
+                        Maximum="100"
+                        Minimum="0"
+                        Value="{Binding HorizontalSpace}" />
+                    <Label
+                        Grid.Column="2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Content="{Binding ElementName=s_horizontal, Path=Value}" />
+                </Grid>
+
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Content="垂直间距" />
+                    <Slider
+                        Name="s_vertical"
+                        Grid.Column="1"
+                        Margin="10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        IsSnapToTickEnabled="True"
+                        Maximum="100"
+                        Minimum="0"
+                        Value="{Binding VerticalSpace}" />
+                    <Label
+                        Grid.Column="2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Content="{Binding ElementName=s_vertical, Path=Value}" />
+                </Grid>
+
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Content="字体大小" />
+                    <Slider
+                        Name="s_fontsize"
+                        Grid.Column="1"
+                        Margin="10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        IsSnapToTickEnabled="True"
+                        Maximum="40"
+                        Minimum="3"
+                        Value="{Binding FontSize}" />
+                    <Label
+                        Grid.Column="2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Content="{Binding ElementName=s_fontsize, Path=Value}" />
+                </Grid>
+
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Content="方块数" />
+
+                    <ComboBox
+                        Grid.Column="1"
+                        Margin="10,0,0,0"
+                        hc:InfoElement.Placeholder="打钩做标记的方框数目"
+                        SelectedIndex="{Binding BoxCount}"
+                        Style="{StaticResource ComboBoxExtend}">
+                        <ComboBoxItem Content="0" Tag="0" />
+                        <ComboBoxItem Content="1" Tag="1" />
+                        <ComboBoxItem Content="2" Tag="2" />
+                        <ComboBoxItem Content="3" Tag="3" />
+                        <ComboBoxItem Content="4" Tag="4" />
+                    </ComboBox>
+                </Grid>
+
+                <hc:ButtonGroup Margin="10">
+                    <RadioButton Content="单词 + 单词" IsChecked="{Binding IsDoubleEnglish}" />
+                    <RadioButton Content="单词 + 释义" IsChecked="{Binding IsDoubleEnglish, Converter={converter:ReverseBoolConverter}}" />
+                </hc:ButtonGroup>
+
+                <UniformGrid Margin="10" Columns="4">
+                    <ToggleButton
+                        HorizontalAlignment="Stretch"
+                        Content="随机生成"
+                        IsChecked="{Binding IsRandom}"
+                        Style="{StaticResource TgBStyle}" />
+                    <ToggleButton
+                        Margin="5,0"
+                        HorizontalAlignment="Stretch"
+                        Content="横向打印"
+                        IsChecked="{Binding IsLandScape}"
+                        Style="{StaticResource TgBStyle}" />
+                    <ToggleButton
+                        HorizontalAlignment="Stretch"
+                        Content="镜像页面"
+                        IsChecked="{Binding IsImage}"
+                        Style="{StaticResource TgBStyle}" />
+                    <ToggleButton
+                        Margin="5,0,0,0"
+                        HorizontalAlignment="Stretch"
+                        Content="最终模式"
+                        IsChecked="{Binding IsFinally}"
+                        Style="{StaticResource TgBStyle}" />
+                </UniformGrid>
+
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        Command="{Binding GeneratePDFCommand}"
+                        Content="导出PDF" />
+
+                    <Button
+                        Grid.Column="1"
+                        Margin="5,0,0,0"
+                        HorizontalAlignment="Stretch"
+                        Command="{Binding OpenPDFCommand}"
+                        Content="预览"
+                        IsEnabled="{Binding PDFPath, Converter={converter:EmptyString2FalseConverter}}" />
+                </Grid>
+
+                <Grid Height="200" Margin="10">
+                    <Border
+                        BorderBrush="{DynamicResource BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="5"
+                        SnapsToDevicePixels="True" />
+
+                    <hc:ScrollViewer>
+                        <TextBox
+                            Name="t_msg"
+                            Margin="10"
+                            VerticalContentAlignment="Top"
+                            BorderThickness="0"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            IsEnabled="False"
+                            Text="{Binding Message}"
+                            TextWrapping="Wrap" />
+                    </hc:ScrollViewer>
+                </Grid>
+
+            </StackPanel>
+
+
+        </Grid>
+
+
+    </Grid>
+</Window>

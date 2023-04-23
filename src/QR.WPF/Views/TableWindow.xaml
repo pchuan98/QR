@@ -1,0 +1,110 @@
+﻿<Window
+    x:Class="QR.WPF.TableWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:attach="clr-namespace:QR.WPF.Attachs"
+    xmlns:converter="clr-namespace:QR.WPF.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:local="clr-namespace:QR.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:vm="clr-namespace:QR.ViewModels;assembly=QR.ViewModels"
+    Title="TableWindow"
+    Width="800"
+    Height="450"
+    Style="{StaticResource EdgeWindow}"
+    mc:Ignorable="d">
+
+    <Grid WindowChrome.IsHitTestVisibleInChrome="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="38" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            x:Name="Header"
+            Grid.Row="0"
+            Orientation="Horizontal">
+
+            <Image
+                Width="16"
+                Height="16"
+                Margin="10,0"
+                attach:ElementAttach.IsDragElement="{Binding ElementName=tag, Path=IsEnabled}"
+                Source="/QR.WPF;component/yjtp-min.ico" />
+
+            <Button
+                Margin="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Click="Button_Click_4"
+                Content="保存" />
+
+            <Button
+                Margin="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Click="Button_Click_1"
+                Content="导出所选" />
+
+            <Button
+                Margin="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Click="Button_Click_2"
+                Content="查找窗口" />
+
+            <Button
+                Margin="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Click="Button_Click_3"
+                Content="记忆窗口" />
+        </StackPanel>
+
+        <Grid
+            x:Name="Content"
+            Grid.Row="1"
+            attach:ElementAttach.IsDragElement="True"
+            Background="{DynamicResource RegionBrush}">
+            <DataGrid
+                Name="editor"
+                Margin="5"
+                hc:DataGridAttach.ShowRowNumber="True"
+                AllowDrop="False"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                CanUserDeleteRows="True"
+                IsReadOnly="False"
+                ItemsSource="{Binding WordCollection}"
+                RowHeaderWidth="40">
+
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Click="Button_Click" Content="刷新" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn
+                        MinWidth="100"
+                        Binding="{Binding Word}"
+                        CanUserSort="True"
+                        Header="单词"
+                        IsReadOnly="False" />
+
+                    <DataGridTextColumn
+                        MinWidth="100"
+                        Binding="{Binding Interpretions, Converter={converter:Interpretion2String}}"
+                        CanUserSort="True"
+                        Header="释义"
+                        IsReadOnly="False" />
+                </DataGrid.Columns>
+
+            </DataGrid>
+        </Grid>
+    </Grid>
+</Window>
